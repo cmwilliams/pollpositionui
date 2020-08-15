@@ -1,0 +1,17 @@
+{
+  "name": "pollposition",
+  "private": true,
+  "version": "0.1.0",
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4",
+    "sass": "^1.26.3"
+  },
+  "scripts": {
+    "build": "parcel build assets/bundle.js --out-dir wwwroot/dist/",
+    "watch": "parcel watch assets/bundle.js --out-dir wwwroot/dist/"
+  },
+  "dependencies": {
+    "@tailwindcss/ui": "^0.1.3",
+    "tailwindcss": "^1.2.0"
+  }
+}

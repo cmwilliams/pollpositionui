@@ -1,0 +1,64 @@
+﻿@page
+@model PollPosition.Pages.SearchModel
+
+
+@if (Model.Data.FederalOfficials.Count == 0 && Model.Data.StateOfficials.Count == 0 && Model.Data.CountyOfficials.Count == 0 && Model.Data.LocalOfficials.Count == 0)
+{
+    <div class="bg-white px-4 py-5 sm:px-6">
+        <ul>
+            <li>
+                <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
+                    <div class="flex">
+                        <div class="flex-shrink-0">
+                            <svg class="h-5 w-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+                            </svg>
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm leading-5 text-yellow-700">
+                                Please enter a valid address and search again.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+
+}
+@if (Model.Data.UpcomingElections.Count > 0)
+{
+    var divisionIds = string.Join(",", Model.Data.UpcomingElections.Select(p => p.Id.ToString()));
+    var resultsLink = $"/Elections?Address={Model.Address}&ElectionIds={divisionIds}";
+
+    <div class="bg-green-100 border-t-4 border-b-2 border-green-400 rounded-b-lg text-green-800 px-4 py-3 sm:px-6 md:shadow-xl mb-5 " role="alert">
+        <div class="flex">
+            <svg class="h-6 w-6 text-teal mr-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M2.93 17.07A10 10 0 1 1 17.07 2.93 10 10 0 0 1 2.93 17.07zm12.73-1.41A8 8 0 1 0 4.34 4.34a8 8 0 0 0 11.32 11.32zM9 11V9h2v6H9v-4zm0-6h2v2H9V5z" /></svg>
+            <div>
+                @if (Model.Data.UpcomingElections.Count == 1)
+                {
+                    <p class="font-bold">There's an upcoming election in your area!</p>
+                }
+                else
+                {
+                    <p class="font-bold">There are @Model.Data.UpcomingElections.Count upcoming elections in your area!</p>
+                }
+
+                <div class="inline-flex rounded-md shadow mt-3">
+                    <a href="@resultsLink" class="inline-flex items-center justify-center px-5 py-1 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-green-400 focus:outline-none focus:shadow-outline transition duration-150 ease-in-out">
+                        View Now
+                        <svg class="-mr-1 ml-3 h-5 w-5 text-white" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M11 3a1 1 0 100 2h2.586l-6.293 6.293a1 1 0 101.414 1.414L15 6.414V9a1 1 0 102 0V4a1 1 0 00-1-1h-5zM5 5a2 2 0 00-2 2v8a2 2 0 002 2h8a2 2 0 002-2v-3a1 1 0 10-2 0v3H5V7h3a1 1 0 000-2H5z" clip-rule="evenodd" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<partial name="_OfficialDisplay" model='new _OfficialDisplayModel { SectionTitle = "Local", Officials = Model.Data.LocalOfficials }' />
+<partial name="_OfficialDisplay" model='new _OfficialDisplayModel { SectionTitle = "County", Officials = Model.Data.CountyOfficials }' />
+<partial name="_OfficialDisplay" model='new _OfficialDisplayModel { SectionTitle = "State", Officials = Model.Data.StateOfficials }' />
+<partial name="_OfficialDisplay" model='new _OfficialDisplayModel { SectionTitle = "Federal Government", Officials = Model.Data.FederalOfficials }' />
+

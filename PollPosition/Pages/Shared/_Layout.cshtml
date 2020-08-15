@@ -1,0 +1,258 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <meta content="Enter your address to find and contact your federal, state, county and local elected representatives" name='description' />
+    <meta content="Poll Position" name='author' />
+
+    <link rel="apple-touch-icon" sizes="57x57" href="~/icons/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="~/icons/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="~/icons/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="~/icons/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="~/icons/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="~/icons/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="~/icons/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="~/icons/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="~/icons/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="~/icons/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="~/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="~/icons/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="~/icons/favicon-16x16.png">
+    <link rel="manifest" href="~/icons/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="~/icons/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+
+
+    <!-- Facebook metadata -->
+    <meta content="Poll Position" property="og:site_name">
+    <meta content="Poll Position" property="og:title">
+    <meta content="website" property="og:type">
+    <meta content="Enter your address to find and contact your federal, state, county and local elected representatives" property="og:description">
+    <meta content="https://pollposition.org/" property="og:url">
+    <meta content="https://pollposition.org/img/vote.png" property="og:image">
+
+    <!-- Twitter metadata -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="">
+    <meta name="twitter:creator" content="">
+    <meta name="twitter:title" content="">
+    <meta name="twitter:url" content="https://pollposition.org">
+    <meta name="twitter:description" content="Enter your address to find and contact your federal, state, county and local elected representatives">
+    <meta name="twitter:image:src" content="https://pollposition.org/img/vote.png">
+
+    <title>@ViewData["Title"] - PollPosition</title>
+    <link rel="stylesheet" href="~/dist/bundle.css" asp-append-version="true" />
+    <script src="https://kit.fontawesome.com/786c46d260.js" crossorigin="anonymous"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDs8mMJcd4Wejf2gXaFKJAYUYRE8A9VDGo&libraries=places&language=en"></script>
+    <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.0.1/dist/alpine.js" defer></script>
+</head>
+<body>
+    <div>
+        <div class="bg-gray-800 pb-32">
+            <nav x-data="{ open: false }" @@keydown.window.escape="open = false" class="bg-gray-800">
+                <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                    <div class="border-b border-gray-700">
+                        <div class="flex items-center justify-between h-16 px-4 sm:px-0">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0">
+
+                                    <h2 class="text-2xl font-bold leading-7 text-gray-200 sm:text-3xl sm:leading-9 sm:truncate">
+                                        <a href="/">
+                                            <i class="fas fa-person-booth text-cool-gray-200"></i>
+                                        </a> Poll Position
+                                    </h2>
+                                </div>
+                                <div class="hidden md:block">
+                                    <div class="ml-10 flex items-baseline">
+                                        <a href="/" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Home</a>
+                                        <a href="/About" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">About</a>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="hidden md:block">
+                                <div class="ml-4 flex items-center md:ml-6">
+                                    <button class="p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-white focus:outline-none focus:text-white focus:bg-gray-700" aria-label="Notifications">
+                                        <a href="https://www.vote.org/" target="_blank">
+                                            <img class="flex-shrink-0 w-9 text-white object-cover" src="~/img/vote.png" />
+                                        </a>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="-mr-2 flex md:hidden">
+                                <button @@click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-gray-700 focus:outline-none focus:bg-gray-700 focus:text-white" x-bind:aria-label="open ? 'Close main menu' : 'Main menu'" x-bind:aria-expanded="open">
+                                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                                        <path :class="{'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                                        <path :class="{'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div :class="{'block': open, 'hidden': !open}" class="hidden border-b border-gray-700 md:hidden">
+                    <div class="px-2 py-3 sm:px-3">
+                        <a href="/" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">Home</a>
+                        <a href="/About" class="ml-4 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700">About</a>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <main class="-mt-32">
+            <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
+                <div class="bg-white shadow overflow-hidden rounded-md">
+                    <partial name="_Searchbar" model="new _SearchbarModel { Address = string.Empty }" />
+                    @RenderBody()
+                    <div class="bg-white">
+                        <div class="max-w-screen-xl mx-auto py-12 px-4 sm:px-6 lg:py-4 lg:px-8">
+                            <div class="xl:grid xl:grid-cols-3 xl:gap-8">
+                                <div class="xl:col-span-1">
+                                    <p class="mt-8 text-gray-500 text-base font-semibold leading-6">
+                                        Find Eelected Officials For:
+                                    </p>
+                                </div>
+                                <div class="mt-6 grid grid-cols-2 gap-8 xl:mt-0 xl:col-span-2">
+                                    <div class="md:grid md:grid-cols-2 md:gap-8">
+                                        <div>
+                                            <ul class="mt-4">
+                                                <li>
+                                                    <a href="/Search?Address=New York City" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        New York City
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=Los Angeles" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Los Angeles
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=Chicago" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Chicago
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=Houston" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Houston
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="mt-12 md:mt-0">
+                                            <ul class="mt-4">
+                                                <li>
+                                                    <a href="/Search?Address=Phoenix" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Phoenix
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=Philadelphia" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Philadelphia
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=San Antonio" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        San Antonio
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=San Diego" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        San Diego
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="md:grid md:grid-cols-2 md:gap-8">
+                                        <div>
+                                            <ul class="mt-4">
+                                                <li>
+                                                    <a href="/Search?Address=Dallas" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Dallas
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=San Jose" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        San Jose
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=Austin" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Austin
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=Jacksonville" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Jacksonville
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <div class="mt-12 md:mt-0">
+                                            <ul class="mt-4">
+                                                <li>
+                                                    <a href="/Search?Address=Atlanta" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Atlanta
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=San Francisco" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        San Francisco
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=Charlotte" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Charlotte
+                                                    </a>
+                                                </li>
+                                                <li class="mt-4">
+                                                    <a href="/Search?Address=Seattle" class="text-base leading-6 text-gray-500 hover:text-gray-900">
+                                                        Seattle
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="fixed inset-x-0 bottom-0">
+        <div class="bg-gray-800">
+            <div class="max-w-screen-xl mx-auto pb-1 px-3 sm:px-6 lg:px-8">
+                <div class="mt-8 md:mt-0 md:order-1">
+                    <p class="text-center text-base leading-6 text-gray-400">
+                        &copy; @DateTime.UtcNow.Year <a class="text-gray-400 hover:text-gray-800 font-medium" target="_blank" href="https://mikewilliams.io">Mike Williams</a>. All rights reserved.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="~/dist/bundle.js"></script>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-GGJ5KFSNGL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-GGJ5KFSNGL');
+
+    </script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

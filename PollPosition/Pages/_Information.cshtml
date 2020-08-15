@@ -1,0 +1,94 @@
+﻿
+@model PollPosition.Pages._InformationModel
+
+@if (Model.ElectionInformation != null)
+{
+    <div class="px-4 py-5 sm:px-6 bg-white">
+        <div class="flex flex-col">
+            @if (Model.ElectionInformation.PollingLocations.Count > 0)
+            {
+                var displayText = Model.ElectionInformation.PollingLocations.Count == 1 ? "Polling Location" : "Polling Locations";
+
+                <div class="flex flex-col">
+                    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                        <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                            @displayText
+                                        </th>
+                                    </tr>
+
+                                </thead>
+                                <tbody class="bg-white">
+                                    @foreach (var pollingLocation in Model.ElectionInformation.PollingLocations)
+                                    {
+                                        var name = !string.IsNullOrEmpty(pollingLocation.Location.Name) ? $"{pollingLocation.Location.Name}<br/>" : string.Empty;
+                                        var startDate = !string.IsNullOrEmpty(pollingLocation.Location.StartDate) ? $"Start Date: {Convert.ToDateTime(pollingLocation.Location.StartDate).ToShortDateString()}<br/>" : string.Empty;
+                                        var endDate = !string.IsNullOrEmpty(pollingLocation.Location.EndDate) ? $"Start Date: {Convert.ToDateTime(pollingLocation.Location.EndDate).ToShortDateString()}<br/>" : string.Empty;
+                                        var pollingHoursDisplay = !string.IsNullOrEmpty(pollingLocation.Location.PollingHours) ? $"<br/>Polling Hours:<br/>{pollingLocation.Location.PollingHours.Replace("\n", "<br/>")}< br/><br/>" : string.Empty;
+
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 font-medium text-gray-900">
+                                                @Html.Raw(name)
+                                                @pollingLocation.Location.Address.Street<br /> @pollingLocation.Location.Address.City,  @pollingLocation.Location.Address.State  @pollingLocation.Location.Address.Zip<br />
+                                                @Html.Raw(startDate)
+                                                @Html.Raw(endDate)
+                                                @Html.Raw(pollingHoursDisplay)
+
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+
+            @if (Model.ElectionInformation.EarlyVoteSites.Count > 0)
+            {
+
+                var displayText = Model.ElectionInformation.EarlyVoteSites.Count == 1 ? "Early Voting Location" : "Eary Voting Locations";
+
+                <div class="flex flex-col">
+                    <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+                        <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+                            <table class="min-w-full">
+                                <thead>
+                                    <tr>
+                                        <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                                            @displayText
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="bg-white">
+                                    @foreach (var pollingLocation in Model.ElectionInformation.EarlyVoteSites)
+                                    {
+                                        var name = !string.IsNullOrEmpty(pollingLocation.Location.Name) ? $"{pollingLocation.Location.Name}<br/>" : string.Empty;
+                                        var startDate = !string.IsNullOrEmpty(pollingLocation.Location.StartDate) ? $"Start Date: {Convert.ToDateTime(pollingLocation.Location.StartDate).ToShortDateString()}<br/>" : string.Empty;
+                                        var endDate = !string.IsNullOrEmpty(pollingLocation.Location.EndDate) ? $"Start Date: {Convert.ToDateTime(pollingLocation.Location.EndDate).ToShortDateString()}<br/>" : string.Empty;
+                                        var pollingHoursDisplay = !string.IsNullOrEmpty(pollingLocation.Location.PollingHours) ? $"<br/>Polling Hours:<br/>{pollingLocation.Location.PollingHours.Replace("\n", "<br/>")}<br/><br/>" : string.Empty;
+
+                                        <tr>
+                                            <td class="px-6 py-4 whitespace-no-wrap border-b border-gray-200 text-sm leading-5 font-medium text-gray-900">
+                                                @Html.Raw(name)
+                                                @pollingLocation.Location.Address.Street<br /> @pollingLocation.Location.Address.City,  @pollingLocation.Location.Address.State  @pollingLocation.Location.Address.Zip<br />
+                                                @Html.Raw(startDate)
+                                                @Html.Raw(endDate)
+                                                @Html.Raw(pollingHoursDisplay)
+                                            </td>
+
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+}

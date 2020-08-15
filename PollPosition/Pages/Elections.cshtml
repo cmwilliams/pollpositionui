@@ -1,0 +1,140 @@
+﻿@page
+@model PollPosition.Pages.ElectionsModel
+@{
+    ViewData["Title"] = "Elections";
+}
+
+
+@foreach (var election in Model.Data.Elections)
+{
+    var showInformation = election.EarlyVoteSites.Count > 0 || election.PollingLocations.Count > 0;
+
+    <div class="max-w-7xl mx-auto sm:px-6 lg:px-6 mt-5 mb-5">
+        <div class="bg-white shadow overflow-hidden  sm:rounded-lg border-t-4 border-b-2 border-cool-gray-400 rounded-b-lg">
+            <div class="px-4 py-5 border-b border-gray-200 sm:px-6">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    @election.Election.Name Information
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm leading-5 text-gray-500">
+                    @Convert.ToDateTime(election.Election.ElectionDay).ToLongDateString()
+                </p>
+            </div>
+
+            <div id="tabs-id">
+                <div class="px-4 py-5 sm:px-6 bg-gray-600 shadow rounded-b-lg">
+                    <div>
+                        <div class="sm:hidden">
+                            <nav class="flex">
+                                @if (showInformation)
+                                {
+                                    <a href="#" class="px-2 py-2 font-medium text-sm leading-5 rounded-md text-gray-800 bg-gray-200 focus:outline-none focus:bg-gray-300" onclick="changeActiveTab(event,'tab-information')">
+                                        Information
+                                    </a>
+                                    <a href="#" class="px-2 py-2 font-medium text-sm leading-5 text-white hover:text-gray-400" onclick="changeActiveTab(event,'tab-contests')">
+                                        Contests
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="px-2 py-2 font-medium text-sm leading-5 rounded-md text-gray-800 bg-gray-200 focus:outline-none focus:bg-gray-300" onclick="changeActiveTab(event,'tab-contests')">
+                                        Contests
+                                    </a>
+                                }
+
+                                <a href="#" class="px-2 py-2 font-medium text-sm leading-5 text-white hover:text-gray-400" onclick="changeActiveTab(event,'tab-state')">
+                                    State
+                                </a>
+                            </nav>
+                        </div>
+                        <div class="hidden sm:block">
+                            <nav class="flex">
+                                @if (showInformation)
+                                {
+                                    <a href="#" class="px-2 py-2 font-medium text-sm leading-5 rounded-md text-gray-800 bg-gray-200 focus:outline-none focus:bg-gray-300" onclick="changeActiveTab(event,'tab-information')">
+                                        Information
+                                    </a>
+                                    <a href="#" class="px-2 py-2 font-medium text-sm leading-5 text-white hover:text-gray-400" onclick="changeActiveTab(event,'tab-contests')">
+                                        Contests
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="#" class="px-2 py-2 font-medium text-sm leading-5 rounded-md text-gray-800 bg-gray-200 focus:outline-none focus:bg-gray-300" onclick="changeActiveTab(event,'tab-contests')">
+                                        Contests
+                                    </a>
+                                }
+                                <a href="#" class="px-2 py-2 font-medium text-sm leading-5 text-white hover:text-gray-400" onclick="changeActiveTab(event,'tab-state')">
+                                    State
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content">
+                    @if (showInformation)
+                    {
+                        <div class="block" id="tab-information">
+                            <partial name="_Information" model='new _InformationModel { ElectionInformation = election }' />
+                        </div>
+                        <div class="hidden" id="tab-contests">
+                            <partial name="_Contests" model='new _ContestsModel { Contests = election.Contests }' />
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="block" id="tab-contests">
+                            <partial name="_Contests" model='new _ContestsModel { Contests = election.Contests }' />
+                        </div>
+                    }
+                    <div class="hidden" id="tab-state">
+                        <partial name="_State" model='new _StateModel { States = election.State }' />
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    function changeActiveTab(event, tabID) {
+        let element = event.target;
+        while (element.nodeName !== "A") {
+            element = element.parentNode;
+        }
+
+        ulElement = element.parentNode;
+        aElements = ulElement.querySelectorAll("nav > a");
+        tabContents = document.getElementById("tabs-id").querySelectorAll(".tab-content > div");
+
+        for (let i = 0; i < aElements.length; i++) {
+
+            aElements[i].classList.add("text-white");
+            aElements[i].classList.add("hover:text-gray-400");
+
+            aElements[i].classList.remove("text-gray-800");
+            aElements[i].classList.remove("rounded-md");
+            aElements[i].classList.remove("bg-gray-200");
+            aElements[i].classList.remove("focus:outline-none");
+            aElements[i].classList.remove("focus:bg-gray-300");
+
+            tabContents[i].classList.add("hidden");
+            tabContents[i].classList.remove("block");
+        }
+
+        element.classList.add("text-gray-800");
+        element.classList.add("rounded-md");
+        element.classList.add("bg-gray-200");
+        element.classList.add("focus:outline-none");
+        element.classList.add("focus:bg-gray-300");
+
+        element.classList.remove("text-white");
+        element.classList.remove("hover:text-gray-400");
+
+        document.getElementById(tabID).classList.remove("hidden");
+        document.getElementById(tabID).classList.add("block");
+    }
+</script>
